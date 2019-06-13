@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const food2forkRoutes = require('./food2fork')
+const recipeRoutes = require('./recipe')
+const userRoutes = require('./user')
 const zomatoRoutes = require('./zomato')
+
 router.get('/', (req,res)=>{
     res.send('testing')
 })
-// router.use('/food2fork',food2forkRoutes)
+router.use('/recipe',recipeRoutes)
+router.use('/user',userRoutes)
 router.use('/zomato', zomatoRoutes)
-
 
 module.exports = router
