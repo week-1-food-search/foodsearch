@@ -8,7 +8,12 @@ const port = 3000
 const index = require('./routers/index.js')
 const cors = require('cors')
 const mongoose = require("mongoose")
-mongoose.connect('mongodb://localhost:27017/atxploreat', {useNewUrlParser: true})
+const url = process.env.DATABASE_URL
+
+mongoose.connect(url, {useNewUrlParser: true})
+.then(()=>{
+  console.log('database connected')
+})
 
 app.use(cors())
 
