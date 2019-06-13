@@ -3,9 +3,9 @@ const jwt = require('../helpers/jwt')
 
 module.exports = (req,res,next)=>{
   // console.log(req.headers['access-token'])
-  if(req.headers['access-token']) {
+  if(req.headers['token']) {
     try {
-      req.decoded = jwt.verify(req.headers['access-token'])
+      req.decoded = jwt.verify(req.headers['token'])
     }
     catch(err) {
       next({ code: 400, message: 'Invalid Token' })
