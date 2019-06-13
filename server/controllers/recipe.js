@@ -1,5 +1,6 @@
 const axios = require('axios')
 axios.defaults.baseURL = `https://api.edamam.com`
+<<<<<<< HEAD
 const Recipe = require('../models/recipe')
 var mongoose = require('mongoose');
 
@@ -27,6 +28,10 @@ class RecipeCont {
     .catch(next)
   }
 
+=======
+
+class AudioDBCont {
+>>>>>>> recipe controller
   static search(req, res, next) {
     axios.get(`/search?q=${req.query.name}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
@@ -38,7 +43,7 @@ class RecipeCont {
   }
 
   static detail(req, res, next) {
-    axios.get(`/search?r=${req.params.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
+    axios.get(`/search?r=${req.query.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
         res.json({
           data: data[0]
