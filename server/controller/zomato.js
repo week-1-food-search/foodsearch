@@ -4,7 +4,7 @@ class zomatoController{
     static getRestaurants(req,res,next){
         let {food} = req.params
         zomatoAPI
-            .get(`/search?=q${food}`)
+            .get(`/search?q=${food}`)
             .then(({data})=>{
                 res.status(200).json(data)
             })
