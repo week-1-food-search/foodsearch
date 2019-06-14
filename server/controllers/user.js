@@ -4,9 +4,13 @@ const jwt = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 <<<<<<< HEAD
+<<<<<<< HEAD
 const randomPass = require("../helpers/randomPass")
 =======
 >>>>>>> recipe controller
+=======
+const randomPass = require('../helpers/randomPass')
+>>>>>>> rapi2
 
 class UserCont {
   static GoogleSignIn(req, res, next) {
@@ -70,6 +74,7 @@ class UserCont {
     })
       .then(row => {
         if (row) {
+          let { name } = row
           let isSame = compareSync(req.body.password, row.password)
           if (isSame) {
             let payload = {
@@ -79,9 +84,13 @@ class UserCont {
             let access_token = jwt.sign(payload)
             res.status(201).json({
 <<<<<<< HEAD
+<<<<<<< HEAD
               token: access_token,
               name: row.name
 =======
+=======
+              name,
+>>>>>>> rapi2
               access_token
 >>>>>>> recipe controller
             })
