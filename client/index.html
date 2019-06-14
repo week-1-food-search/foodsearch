@@ -8,9 +8,14 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta name="google-signin-client_id" content="343295506000-an559mi8mlg65p06fskm7711fduio78r.apps.googleusercontent.com">
     <style>
+      
       /* .modal{
         width:100vw;
         height:100vh
+      } */
+      /* .fav{
+        border-left: 1px black solid;
+        padding-left: 5px
       } */
       .restaurant, .recipe{
         cursor:pointer;
@@ -83,7 +88,7 @@
               <a class="nav-link disabled logged-in" id="user"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link logged-in" href="#" id="logoff" onclick="signOut()">Logoff</a>
+                <a class="nav-link logged-in" href="#" id="logoff" onclick="signOut()">Log Out</a>
             </li>
           </ul>
       </div>
@@ -140,10 +145,10 @@
 
   <div class="container home">
     <div id="notification3"></div>
-    <div class="row">
-      <div class="col-4 center">
-        <h1 class="text-center">Search Recipe & Restaurant</h1>
-        <form id="filter" class='center'>
+    <div class="row" style="background-repeat:no-repeat; background-size:cover; background-image:url('https://i.pinimg.com/originals/76/89/c5/7689c5513084cd3ae199cec4f9b84af3.jpg')">
+      <div class="col-4 center" style="height:40vh;" >
+        <h1 class="text-center" style='color:#fff8dc; margin-top:25%'>Search Recipe & Restaurant</h1>
+        <form id="filter" class='center align-middle'>
           <div class="row">
               <div class="col-md-12">
                 <div class="input-group input-group-md">
@@ -167,7 +172,7 @@
     <div class="row list restaurant">
       <div class="col-sm-12 col-md-6">
           <div class="row">
-            <div class="col text-center dropdownRestaurant">
+            <div class="col text-center  dropdownRestaurant">
               <h1>Restaurant List</h1>
             </div>
           </div>
@@ -195,13 +200,21 @@
               <hr/>
               </div>
             </div>
-            <div class="row resto">
+            <div class="row resto fav">
+                
+                <div class="d-flex flex-row flex-nowrap lists" id='scrollable'>
+                  <div class="card-columns" id="fav-restaurant">
+                                          
+                  </div>
+                </div>
+            </div>
+            <!-- <div class="row resto">
                 <div class="col lists">
                   <div class="card-columns" id="fav-restaurant">
                     
                   </div>
                 </div>
-            </div>
+            </div> -->
       </div>
     </div>
 
@@ -243,22 +256,22 @@
                 </div>
               </div>
               
-              <!-- <div class="row rec">
+              <div class="row rec">
                 
-                  <div class="d-flex flex-row flex-nowrap lists">
-                    <div class="card-columns " id="fav-recipe">
+                  <div class="d-flex flex-row flex-nowrap lists" id='scrollable'>
+                    <div class="card-columns" id="fav-recipe">
                                             
                     </div>
                   </div>
-              </div> -->
+              </div>
               
-              <div class="row rec">
+              <!-- <div class="row rec">
                   <div class="col lists">
                     <div class="card-columns " id="fav-recipe">
                                             
                     </div>
                   </div>
-              </div>
+              </div> -->
         </div>
     </div>
 

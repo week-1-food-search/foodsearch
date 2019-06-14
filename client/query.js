@@ -117,7 +117,7 @@ function initialPopulate(){
           <a href="#" class="btn btn-primary detail mt" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
           </div>
           <div class="row justify-content-center">
-          <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
+          <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Remove from Favorite</a>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@ function initialPopulate(){
           <div class="card-body text-center">
             <h5 class="card-title">${data[i].name}</h5>
             <a href="#" class="btn btn-primary detail mt" id="${data[i].resId}" data-toggle="modal" data-target="#modal">Detail</a>
-            <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
+            <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Remove from Favorite</a>
           </div>
         </div>
       `)
@@ -202,6 +202,11 @@ function signOut() {
 }
 
 $( "#filter" ).submit(function( event ) {
+  $(".resto").show()
+  $(".rec").show()
+  $(".restaurant").removeClass('hide')
+  $(".recipe").removeClass('hide')
+
   console.log('filter')
   event.preventDefault()
   const food = $("#food").val()
@@ -275,7 +280,7 @@ function addFavResto (resId, name, address, rating, image) {
         <div class="card-body text-center">
           <h5 class="card-title">${data.name}</h5>
           <a href="#" class="btn btn-primary detail" id="${data.resId}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary remove mt" id="${data._id}">Remove from Favorite</a>
+          <a href="#" class="btn btn-danger remove mt" id="${data._id}">Remove from Favorite</a>
         </div>
       </div>
     `)
@@ -320,7 +325,7 @@ function addFavRecipe (uri, name, image, source, url) {
           <h5 class="card-title">${data.name}</h5>
           <h6 class="card-title">${data.source}</h6>
           <a href="#" class="btn btn-primary detail" id="${data.uri}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary remove mt" id="${data._id}">Remove from Favorite</a>
+          <a href="#" class="btn btn-danger remove mt" id="${data._id}">Remove from Favorite</a>
         </div>
       </div>
     `)
@@ -406,7 +411,7 @@ $(".restaurant").on("click", ".detail", function(event) {
     <div class="row">
       <div class="col"> 
       <iframe width="100%" height="100%" frameborder="0" style="border:0"
-      src="https://www.google.com/maps/embed/v1/place?q=${data.name}&key=AIzaSyBawmMT17jIpxGrLvzO7L0sA-f5rwcQSxY" allowfullscreen></iframe>
+      src="https://www.google.com/maps/embed/v1/place?q=${data.location.latitude}+${data.location.longitude}&key=AIzaSyBawmMT17jIpxGrLvzO7L0sA-f5rwcQSxY" allowfullscreen></iframe>
       </div>
       <div class="col"> 
         <img class="card-img-top" src="${data.thumb}">
@@ -473,6 +478,7 @@ $(".recipe").on("click", ".detail", function(event) {
 })
 
 $('document').ready(function(){
+  
   if(localStorage.getItem('token')){
     $("#notification3").empty()
     $("#user").empty()
@@ -486,4 +492,8 @@ $('document').ready(function(){
     $('.home').show()
     initialPopulate()
   }
+  $('#scrollable').mousewheel(function(e, delta) {
+    this.scrollLeft -= (delta * 40);
+    e.preventDefault();
+  });
 })
