@@ -2,7 +2,7 @@ const axios = require('axios')
 axios.defaults.baseURL = `https://api.edamam.com`
 const Recipe = require('../models/recipe')
 
-class AudioDBCont {
+class RecipeCont {
   static addToFav(req, res, next){
     Recipe.create({
       user: req.decoded._id,
@@ -47,4 +47,4 @@ class AudioDBCont {
   }
 }
 
-module.exports = AudioDBCont
+module.exports = RecipeCont
