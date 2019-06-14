@@ -38,7 +38,8 @@ class RecipeCont {
   }
 
   static detail(req, res, next) {
-    axios.get(`/search?r=${req.params.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
+    console.log(req.query.uri)
+    axios.get(`/search?r=${encodeURIComponent(req.query.uri)}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
         res.json({
           data: data[0]

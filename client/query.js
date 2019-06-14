@@ -77,6 +77,30 @@ $( "#login-form" ).submit(function( event ) {
     $(".logged-in").show()
     $('.login').hide()
     $('.home').show()
+    $.ajax({
+      method: "GET",
+      url: `http://localhost:3000/recipe/list`,
+      headers: {token: localStorage.getItem("token")}
+    })
+    .done(function(data) {
+      for (let i = 0; i < data.length; i++){
+        $("#fav-recipe").append(`
+        <div class="card" style="width: 100%;">
+          <img class="card-img-top" src="${data[i].image}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${data[i].name}</h5>
+            <h6 class="card-title">${data[i].source}</h6>
+            <div class="row justify-content-center">
+            <a href="#" class="btn btn-primary detail" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
+            </div>
+            <div class="row justify-content-center">
+            <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
+            </div>
+          </div>
+        </div>
+      `)
+      }
+    })
   })
   .fail(function(err) {
     $("#notification2").empty()
@@ -127,7 +151,7 @@ function onSignIn(googleUser) {
               <a href="#" class="btn btn-primary detail" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
               </div>
               <div class="row justify-content-center">
-              <a href="#" class="btn btn-primary remove" id="${data[i]._id}">Remove from Favorite</a>
+              <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
               </div>
             </div>
           </div>
@@ -270,7 +294,7 @@ function addFavRecipe (uri, name, image, source, url) {
           <h5 class="card-title">${data.name}</h5>
           <h6 class="card-title">${data.source}</h6>
           <a href="#" class="btn btn-primary detail" id="${data.uri}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary remove" id="${data._id}">Remove from Favorite</a>
+          <a href="#" class="btn btn-primary remove mt" id="${data._id}">Remove from Favorite</a>
         </div>
       </div>
     `)
@@ -378,10 +402,12 @@ $(".recipe").on("click", ".detail", function(event) {
   let uri = $("a").prevObject[0].activeElement.id
   $.ajax({
     method: "GET",
-    url: `http://localhost:3000/recipe/${uri}`,
-    headers: {token: localStorage.getItem("token")}
+    url: `http://localhost:3000/recipe?uri=${encodeURIComponent(uri)}`,
+    headers: {
+      token: localStorage.getItem("token")
+  }
   })
-  .done (function(data) {
+  .done (function({data}) {
     $("#notification3").empty()
     $(".modal-title").empty()
     $(".modal-title").append(`${data.label}`)
@@ -412,7 +438,7 @@ $(".recipe").on("click", ".detail", function(event) {
     $("#notification3").empty()
     $("#notification3").append(`
     <div class="alert alert-warning" role="alert">
-      ${err.responseJSON.message}
+      ${err.message}
     </div>
     `)
   })
