@@ -8,6 +8,20 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <meta name="google-signin-client_id" content="343295506000-an559mi8mlg65p06fskm7711fduio78r.apps.googleusercontent.com">
     <style>
+      /* .modal{
+        width:100vw;
+        height:100vh
+      } */
+      .restaurant, .recipe{
+        cursor:pointer;
+        -webkit-transition: all 1s ease;  
+        -moz-transition: all 1s ease;  
+        -o-transition: all 1s ease;  
+        -ms-transition: all 1s ease; 
+      }
+      .hide{
+        height:50px !important
+      }
       .container{
         max-width: 100%;
         margin-top: 20px;
@@ -45,6 +59,9 @@
       }
       .mt {
         margin-top: 10px;
+      }
+      .card-columns{
+        display:inline-block
       }
     </style>
   </head>
@@ -126,7 +143,7 @@
     <div class="row">
       <div class="col-4 center">
         <h1 class="text-center">Search Recipe & Restaurant</h1>
-        <form id="filter">
+        <form id="filter" class='center'>
           <div class="row">
               <div class="col-md-12">
                 <div class="input-group input-group-md">
@@ -148,18 +165,18 @@
     </div>
 
     <div class="row list restaurant">
-      <div class="col">
+      <div class="col-sm-12 col-md-6">
           <div class="row">
-            <div class="col text-center">
+            <div class="col text-center dropdownRestaurant">
               <h1>Restaurant List</h1>
             </div>
           </div>
-          <div class="row">
+          <div class="row resto">
             <div class="col">
             <hr/>
             </div>
           </div>
-          <div class="row">
+          <div class="row resto">
               <div class="col lists">
                 <div class="card-columns" id="restaurant">
               
@@ -167,18 +184,18 @@
               </div>
           </div>
       </div>
-      <div class="col text-center">
+      <div class="col-sm-12 col-md-6 text-center">
           <div class="row">
-              <div class="col text-center">
+              <div class="col text-center dropdownRestaurant">
                 <h1>Favorite Restaurant List</h1>
               </div>
             </div>
-            <div class="row">
+            <div class="row resto">
               <div class="col">
               <hr/>
               </div>
             </div>
-            <div class="row">
+            <div class="row resto">
                 <div class="col lists">
                   <div class="card-columns" id="fav-restaurant">
                     
@@ -195,9 +212,9 @@
     </div>
 
     <div class="row list recipe">
-        <div class="col">
+        <div class="col-sm-12 col-md-6">
             <div class="row">
-              <div class="col text-center">
+              <div class="col text-center dropdownRecipe">
                 <h1>Recipe List</h1>
               </div>
             </div>
@@ -206,7 +223,7 @@
               <hr/>
               </div>
             </div>
-            <div class="row">
+            <div class="row rec">
                 <div class="col lists">
                   <div class="card-columns" id="recipe">
                                         
@@ -214,9 +231,9 @@
                 </div>
             </div>
         </div>
-        <div class="col text-center">
+        <div class="col-sm-12 col-md-6 text-center">
             <div class="row">
-                <div class="col text-center">
+                <div class="col text-center dropdownRecipe">
                   <h1>Favorite Recipe List</h1>
                 </div>
               </div>
@@ -225,9 +242,19 @@
                 <hr/>
                 </div>
               </div>
-              <div class="row">
+              
+              <!-- <div class="row rec">
+                
+                  <div class="d-flex flex-row flex-nowrap lists">
+                    <div class="card-columns " id="fav-recipe">
+                                            
+                    </div>
+                  </div>
+              </div> -->
+              
+              <div class="row rec">
                   <div class="col lists">
-                    <div class="card-columns" id="fav-recipe">
+                    <div class="card-columns " id="fav-recipe">
                                             
                     </div>
                   </div>

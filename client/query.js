@@ -1,6 +1,6 @@
-if (localStorage.getItem("token")){
-  localStorage.clear()
-}
+// if (localStorage.getItem("token")){
+//   localStorage.clear()
+// }
 
 $( "#register" ).click(function( event ) {
   $('.register').show()
@@ -41,7 +41,14 @@ $( "#register-form" ).submit(function( event ) {
     `)
   })
 })
-
+$(".dropdownRestaurant").click(function(){
+  $(".resto").toggle('display')
+  $(".restaurant").toggleClass('hide')
+})
+$(".dropdownRecipe").click(function(){
+  $(".rec").toggle('display')
+  $(".recipe").toggleClass('hide')
+})
 $( "#login" ).click(function( event ) {
   $('.login').show()
   $('.home').hide()
@@ -71,55 +78,14 @@ $( "#login-form" ).submit(function( event ) {
     </div>
     `)
     localStorage.setItem("token", data.token)
+    localStorage.setItem("name", data.name)
     $("#user").append(data.name)
     $(".logged-out").hide()
     $(".logged-in").attr( "style", "display: inline-block;" )
     $(".logged-in").show()
     $('.login').hide()
     $('.home').show()
-    $.ajax({
-      method: "GET",
-      url: `http://localhost:3000/recipe/list`,
-      headers: {token: localStorage.getItem("token")}
-    })
-    .done(function(data) {
-      for (let i = 0; i < data.length; i++){
-        $("#fav-recipe").append(`
-        <div class="card" style="width: 100%;">
-          <img class="card-img-top" src="${data[i].image}">
-          <div class="card-body text-center">
-            <h5 class="card-title">${data[i].name}</h5>
-            <h6 class="card-title">${data[i].source}</h6>
-            <div class="row justify-content-center">
-            <a href="#" class="btn btn-primary detail" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
-            </div>
-            <div class="row justify-content-center">
-            <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
-            </div>
-          </div>
-        </div>
-      `)
-      }
-    })
-    $.ajax({
-      method: "GET",
-      url: `http://localhost:3000/restaurants/favorite`,
-      headers: {token: localStorage.getItem("token")}
-    })
-    .done(function(data) {
-      for (let i = 0; i < data.length; i++){
-        $("#fav-restaurant").append(`
-          <div class="card" style="width: 100%;">
-            <img class="card-img-top" src="${data[i].image}">
-            <div class="card-body text-center">
-              <h5 class="card-title">${data[i].name}</h5>
-              <a href="#" class="btn btn-primary detail" id="${data[i].resId}" data-toggle="modal" data-target="#modal">Detail</a>
-              <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
-            </div>
-          </div>
-        `)
-      }
-    })
+    initialPopulate()
   })
   .fail(function(err) {
     $("#notification2").empty()
@@ -130,6 +96,54 @@ $( "#login-form" ).submit(function( event ) {
     `)
   })
 })
+
+function initialPopulate(){
+  $('#fav-restaurant').empty()
+  $('#fav-recipe').empty()
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3000/recipe/list`,
+    headers: {token: localStorage.getItem("token")}
+  })
+  .done(function(data) {
+    for (let i = 0; i < data.length; i++){
+      $("#fav-recipe").append(`
+      <div class="card " style="width: 100%;">
+        <img class="card-img-top" src="${data[i].image}">
+        <div class="card-body text-center">
+          <h5 class="card-title">${data[i].name}</h5>
+          <h6 class="card-title">${data[i].source}</h6>
+          <div class="row justify-content-center">
+          <a href="#" class="btn btn-primary detail mt" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
+          </div>
+          <div class="row justify-content-center">
+          <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
+          </div>
+        </div>
+      </div>
+    `)
+    }
+  })
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3000/restaurants/favorite`,
+    headers: {token: localStorage.getItem("token")}
+  })
+  .done(function(data) {
+    for (let i = 0; i < data.length; i++){
+      $("#fav-restaurant").append(`
+        <div class="card" style="width: 100%;">
+          <img class="card-img-top" src="${data[i].image}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${data[i].name}</h5>
+            <a href="#" class="btn btn-primary detail mt" id="${data[i].resId}" data-toggle="modal" data-target="#modal">Detail</a>
+            <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
+          </div>
+        </div>
+      `)
+    }
+  })
+}
 
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
@@ -153,49 +167,7 @@ function onSignIn(googleUser) {
       $('.home').show()
       $("#notification2").empty()
       $("#fav-recipe").empty()
-      $.ajax({
-        method: "GET",
-        url: `http://localhost:3000/recipe/list`,
-        headers: {token: localStorage.getItem("token")}
-      })
-      .done(function(data) {
-        for (let i = 0; i < data.length; i++){
-          $("#fav-recipe").append(`
-          <div class="card" style="width: 100%;">
-            <img class="card-img-top" src="${data[i].image}">
-            <div class="card-body text-center">
-              <h5 class="card-title">${data[i].name}</h5>
-              <h6 class="card-title">${data[i].source}</h6>
-              <div class="row justify-content-center">
-              <a href="#" class="btn btn-primary detail" id="${data[i].uri}" data-toggle="modal" data-target="#modal">Detail</a>
-              </div>
-              <div class="row justify-content-center">
-              <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
-              </div>
-            </div>
-          </div>
-        `)
-        }
-      })
-      $.ajax({
-        method: "GET",
-        url: `http://localhost:3000/restaurants/favorite`,
-        headers: {token: localStorage.getItem("token")}
-      })
-      .done(function(data) {
-        for (let i = 0; i < data.length; i++){
-          $("#fav-restaurant").append(`
-            <div class="card" style="width: 100%;">
-              <img class="card-img-top" src="${data[i].image}">
-              <div class="card-body text-center">
-                <h5 class="card-title">${data[i].name}</h5>
-                <a href="#" class="btn btn-primary detail" id="${data[i].resId}" data-toggle="modal" data-target="#modal">Detail</a>
-                <a href="#" class="btn btn-primary remove mt" id="${data[i]._id}">Remove from Favorite</a>
-              </div>
-            </div>
-          `)
-        }
-      })
+      initialPopulate()
     })
     .catch(function(err) {
       $("#notification2").empty()
@@ -208,6 +180,9 @@ function onSignIn(googleUser) {
 }
 
 function signOut() {
+  $("#notification1").empty()
+  $("#notification2").empty()
+  $("#notification3").empty()
   $('.logged-out').show()
   $("#user").empty()
   $("#restaurant").empty()
@@ -217,8 +192,9 @@ function signOut() {
   $('.logged-in').hide()
   $('.home').hide()
   $('.login').show()
-  localStorage.token = ""
 
+  localStorage.removeItem('token')
+  localStorage.removeItem('name')
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
@@ -226,6 +202,7 @@ function signOut() {
 }
 
 $( "#filter" ).submit(function( event ) {
+  console.log('filter')
   event.preventDefault()
   const food = $("#food").val()
   $("#restaurant").empty()
@@ -242,8 +219,8 @@ $( "#filter" ).submit(function( event ) {
         <img class="card-img-top" src="${resto[i].restaurant.thumb}">
         <div class="card-body text-center">
           <h5 class="card-title">${resto[i].restaurant.name}</h5>
-          <a href="#" class="btn btn-primary detail" id="${resto[i].restaurant.id}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary" id="${resto[i].restaurant.id}" onclick="addFavResto('${resto[i].restaurant.id}', '${resto[i].restaurant.name}', '${resto[i].restaurant.location.address}', '${resto[i].restaurant.user_rating.aggregate_rating}', '${resto[i].restaurant.thumb}')">Add To Favorites</a>
+          <a href="#" class="btn btn-primary detail mt" id="${resto[i].restaurant.id}" data-toggle="modal" data-target="#modal">Detail</a>
+          <a href="#" class="btn btn-primary mt" id="${resto[i].restaurant.id}" onclick="addFavResto('${resto[i].restaurant.id}', '${resto[i].restaurant.name}', '${resto[i].restaurant.location.address}', '${resto[i].restaurant.user_rating.aggregate_rating}', '${resto[i].restaurant.thumb}')">Add To Favorites</a>
         </div>
       </div>
       `)
@@ -261,8 +238,8 @@ $( "#filter" ).submit(function( event ) {
         <div class="card-body text-center">
           <h5 class="card-title">${data[i].recipe.label}</h5>
           <h6 class="card-title">${data[i].recipe.source}</h6>
-          <a href="#" class="btn btn-primary detail" id="${data[i].recipe.uri}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary" id="${data[i].recipe.uri}" onclick="addFavRecipe('${data[i].recipe.uri}', '${data[i].recipe.label}', '${data[i].recipe.image}', '${data[i].recipe.source}', '${data[i].recipe.url}')">Add To Favorites</a>
+          <a href="#" class="btn btn-primary detail mt" id="${data[i].recipe.uri}" data-toggle="modal" data-target="#modal">Detail</a>
+          <a href="#" class="btn btn-primary mt" id="${data[i].recipe.uri}" onclick="addFavRecipe('${data[i].recipe.uri}', '${data[i].recipe.label}', '${data[i].recipe.image}', '${data[i].recipe.source}', '${data[i].recipe.url}')">Add To Favorites</a>
         </div>
       </div>
       `)
@@ -304,10 +281,11 @@ function addFavResto (resId, name, address, rating, image) {
     `)
   })
   .fail(function(err) {
+    console.log(err)
     $("#notification3").empty()
     $("#notification3").append(`
     <div class="alert alert-warning" role="alert">
-      ${err.responseJSON.message}
+      ${err.responseJSON.message.resId}
     </div>
     `)
   })
@@ -348,10 +326,11 @@ function addFavRecipe (uri, name, image, source, url) {
     `)
   })
   .fail(function(err) {
+    console.log(err)
     $("#notification3").empty()
     $("#notification3").append(`
     <div class="alert alert-warning" role="alert">
-      ${err.responseJSON.message}
+      ${err.responseJSON.message.name}
     </div>
     `)
   })
@@ -426,7 +405,8 @@ $(".restaurant").on("click", ".detail", function(event) {
     $(".modal-body").append(`
     <div class="row">
       <div class="col"> 
-        isi map
+      <iframe width="100%" height="100%" frameborder="0" style="border:0"
+      src="https://www.google.com/maps/embed/v1/place?q=${data.name}&key=AIzaSyBawmMT17jIpxGrLvzO7L0sA-f5rwcQSxY" allowfullscreen></iframe>
       </div>
       <div class="col"> 
         <img class="card-img-top" src="${data.thumb}">
@@ -490,4 +470,20 @@ $(".recipe").on("click", ".detail", function(event) {
     </div>
     `)
   })
+})
+
+$('document').ready(function(){
+  if(localStorage.getItem('token')){
+    $("#notification3").empty()
+    $("#user").empty()
+
+    let name = localStorage.getItem('name')
+    $("#user").append(name)
+    $(".logged-out").hide()
+    $(".logged-in").attr( "style", "display: inline-block;" )
+    $(".logged-in").show()
+    $('.login').hide()
+    $('.home').show()
+    initialPopulate()
+  }
 })
