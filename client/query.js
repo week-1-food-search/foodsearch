@@ -1,6 +1,6 @@
-if (localStorage.getItem("token")){
-  localStorage.clear()
-}
+// if (localStorage.getItem("token")){
+//   localStorage.clear()
+// }
 
 $( "#register" ).click(function( event ) {
   $('.register').show()

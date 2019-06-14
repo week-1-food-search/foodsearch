@@ -3,14 +3,7 @@ const { compareSync } = require('../helpers/bcrypt')
 const jwt = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-<<<<<<< HEAD
-<<<<<<< HEAD
 const randomPass = require("../helpers/randomPass")
-=======
->>>>>>> recipe controller
-=======
-const randomPass = require('../helpers/randomPass')
->>>>>>> rapi2
 
 class UserCont {
   static GoogleSignIn(req, res, next) {
@@ -53,10 +46,6 @@ class UserCont {
   }
 
   static register(req, res, next) {
-<<<<<<< HEAD
-    console.log('hai')
-=======
->>>>>>> merge done
     User.create({
       name: req.body.name,
       email: req.body.email,
@@ -81,18 +70,10 @@ class UserCont {
               _id: row._id,
               email: row.email
             }
-            let access_token = jwt.sign(payload)
+            let token = jwt.sign(payload)
             res.status(201).json({
-<<<<<<< HEAD
-<<<<<<< HEAD
-              token: access_token,
-              name: row.name
-=======
-=======
+              token,
               name,
->>>>>>> rapi2
-              access_token
->>>>>>> recipe controller
             })
           }
           else next({ code: 422, message: 'Wrong email/password' })
