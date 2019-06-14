@@ -21,7 +21,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/', index)
+<<<<<<< HEAD
 
+=======
+app.listen(port, ()=>{console.log('listening to port', port)})
+>>>>>>> added listen
 app.use(error)
 
 app.listen(port, () => console.log('listening to port :', port))    
