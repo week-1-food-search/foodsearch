@@ -21,7 +21,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/', index)
-app.use(error)
 
 app.use(error)
 
