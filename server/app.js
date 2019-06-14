@@ -4,7 +4,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 const error = require("./helpers/error")
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const index = require('./routers/index.js')
 const cors = require('cors')
 const mongoose = require("mongoose")
@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/', index)
+app.use(error)
 
 app.use(error)
 
