@@ -11,5 +11,9 @@ router.get('/', (req,res)=>{
 router.use('/user',userRoutes)
 router.use(authentication)
 router.use('/restaurants', zomatoRoutes)
+<<<<<<< HEAD
+=======
+router.use('/recipe',recipeRoutes)
+>>>>>>> merge done
 
 module.exports = router

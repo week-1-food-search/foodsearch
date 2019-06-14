@@ -49,7 +49,10 @@ class UserCont {
   }
 
   static register(req, res, next) {
+<<<<<<< HEAD
     console.log('hai')
+=======
+>>>>>>> merge done
     User.create({
       name: req.body.name,
       email: req.body.email,

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> merge done
 const router = require('express').Router()
 const recipe = require('../controllers/recipe')
 const authenticate = require('../middlewares/authenticate')
@@ -21,4 +24,8 @@ router.delete('/deletefav/:id', authorize, recipe.removeFav)
 // router.post('/deleterecipe', recipe.removeFavRecipe)
 >>>>>>> add fav done
 
+<<<<<<< HEAD
 // module.exports = router
+=======
+module.exports = router
+>>>>>>> merge done
