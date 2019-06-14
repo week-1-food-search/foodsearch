@@ -413,16 +413,16 @@ $("#fav-recipe").on("click", ".remove", function(event) {
 
 $(".restaurant").on("click", ".detail", function(event) {
   let id = $("a").prevObject[0].activeElement.id
+  $("#notification3").empty()
+  $(".modal-title").empty()
+  $(".modal-body").empty()
   $.ajax({
     method: "GET",
     url: `http://localhost:3000/restaurants/detail/${id}`,
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
-    $(".modal-title").empty()
     $(".modal-title").append(`${data.name}`)
-    $(".modal-body").empty()
     $(".modal-body").append(`
     <div class="row">
       <div class="col"> 
@@ -448,6 +448,9 @@ $(".restaurant").on("click", ".detail", function(event) {
 
 $(".recipe").on("click", ".detail", function(event) {
   let uri = $("a").prevObject[0].activeElement.id
+  $("#notification3").empty()
+  $(".modal-title").empty()
+  $(".modal-body").empty()
   $.ajax({
     method: "GET",
     url: `http://localhost:3000/recipe?uri=${encodeURIComponent(uri)}`,
@@ -456,10 +459,7 @@ $(".recipe").on("click", ".detail", function(event) {
   }
   })
   .done (function({data}) {
-    $("#notification3").empty()
-    $(".modal-title").empty()
     $(".modal-title").append(`${data.label}`)
-    $(".modal-body").empty()
     $(".modal-body").append(`
     <div class="row">
       <div class="col"> 
