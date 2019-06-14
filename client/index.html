@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Client Side</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta name="google-signin-client_id" content="601985090513-h9v7e5bhnotafuifg59a3c1vf90gqrub.apps.googleusercontent.com">
+    <style>
+      .container{
+        max-width: 100%;
+        margin-top: 20px;
+      }
+      #filter {
+        width: 80%;
+      }
+      .card-columns {
+        column-count: 3;
+      }
+      div.lists {
+        overflow: scroll;
+        height: 65vh;
+      }
+      .form-user {
+        width: 30%;
+      }
+      .center {
+        margin: 0px auto;
+      }
+      .register {
+        display: none;
+      }
+      .login {
+        display: none;
+      }
+      .logged-in {
+        display: none;
+      }
+      #user {
+        color: white;
+      }
+      .list {
+        height: 75vh;
+      }
+    </style>
+  </head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+      <div>
+        <h1 class="navbar-brand">FOODSEARCH</h1>
+      </div>
+      <div id="right-nav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link logged-out" href="#" id="register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link logged-out" href="#" id="login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled logged-in" id="user"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link logged-in" href="#" id="logoff">Logoff</a>
+            </li>
+          </ul>
+      </div>
+  </nav>
+
+  <div class="container register">
+    <h2 class="text-center">Register Form</h2>
+    <div id="notification1"></div>
+    <form class="form-user center" id="register-form">
+      <div class="form-group">
+        <label for="emailR">Email address</label>
+        <input type="email" class="form-control" id="emailR" aria-describedby="emailHelp" placeholder="Enter email" required>
+      </div>
+      <div class="form-group">
+        <label for="passwordR">Password</label>
+        <input type="password" class="form-control" id="passwordR" placeholder="Password" required>
+      </div>
+      <div class="col text-center">
+        <button type="submit" class="btn btn-primary center">Submit</button>
+      </div>
+    </form>
+    <br>
+  </div>
+
+  <div class="container login">
+      <h2 class="text-center">Login Form</h2>
+      <div id="notification2"></div>
+      <form class="form-user center" id="login-form">
+        <div class="form-group">
+          <label for="emailR">Email address</label>
+          <input type="email" class="form-control" id="emailL" aria-describedby="emailHelp" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+          <label for="passwordR">Password</label>
+          <input type="password" class="form-control" id="passwordL" placeholder="Password" required>
+        </div>
+        <p>Or login with:</p>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+              <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+        </div>
+        <div class="col text-center">
+          <br>
+          <button type="submit" class="btn btn-primary center">Submit</button>
+        </div>
+      </form>
+      <br>
+    </div>
+
+  <div class="container home">
+    <div id="notification3"></div>
+    <div class="row">
+      <div class="col-4 center">
+        <h1 class="text-center">Search Recipe & Restaurant</h1>
+        <form id="filter">
+          <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-md">
+                  <input type="text" name="usergit" id="food" class="form-control form-control-sm input-md" placeholder="Filter By Food Name">
+                  <span class="input-group-append">
+                    <button class="btn btn-outline-success btn-md" type="submit">Search</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+      <hr/>
+      </div>
+    </div>
+
+    <div class="row list restaurant">
+      <div class="col">
+          <div class="row">
+            <div class="col text-center">
+              <h1>Restaurant List</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+            <hr/>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col lists">
+                <div class="card-columns" id="restaurant">
+              
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col text-center">
+          <div class="row">
+              <div class="col text-center">
+                <h1>Favorite Restaurant List</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+              <hr/>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col lists">
+                  <div class="card-columns" id="fav-restaurant">
+                    
+                  </div>
+                </div>
+            </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+      <hr/>
+      </div>
+    </div>
+
+    <div class="row list recipe">
+        <div class="col">
+            <div class="row">
+              <div class="col text-center">
+                <h1>Recipe List</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+              <hr/>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col lists">
+                  <div class="card-columns" id="recipe">
+                                        
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col text-center">
+            <div class="row">
+                <div class="col text-center">
+                  <h1>Favorite Recipe List</h1>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                <hr/>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col lists">
+                    <div class="card-columns" id="fav-recipe">
+                                            
+                    </div>
+                  </div>
+              </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="./query.js"></script>
+</html>
