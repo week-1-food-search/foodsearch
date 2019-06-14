@@ -1,6 +1,7 @@
 const axios = require('axios')
 axios.defaults.baseURL = `https://api.edamam.com`
 const Recipe = require('../models/recipe')
+var mongoose = require('mongoose');
 
 class RecipeCont {
   static addToFav(req, res, next){
@@ -37,13 +38,35 @@ class RecipeCont {
   }
 
   static detail(req, res, next) {
-    axios.get(`/search?r=${req.params.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
+    console.log(req.query.uri)
+    axios.get(`/search?r=${encodeURIComponent(req.query.uri)}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
         res.json({
           data: data[0]
         })
       })
       .catch(next)
+  }
+
+  static listfav (req, res, next) {
+    Recipe.find({user: mongoose.Types.ObjectId(req.decoded._id)}, function (err, recipes) {
+      if (err) {
+        next ({code: 400, message: err.message})
+      } else {
+        let output = []
+        for (let i = 0; i < recipes.length; i++){
+          let recipe = {
+            name: recipes[i].name,
+            uri: recipes[i].uri,
+            image: recipes[i].image,
+            source: recipes[i].source,
+            url: recipes[i].url,
+          }
+          output.push(recipe)
+        }
+        res.status(200).json(output)
+      }
+    })
   }
 }
 
