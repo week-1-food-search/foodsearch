@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://apis.google.com/js/platform.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <meta name="google-signin-client_id" content="601985090513-h9v7e5bhnotafuifg59a3c1vf90gqrub.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="343295506000-an559mi8mlg65p06fskm7711fduio78r.apps.googleusercontent.com">
     <style>
       .container{
         max-width: 100%;
@@ -31,7 +31,7 @@
       .register {
         display: none;
       }
-      .login {
+      .home {
         display: none;
       }
       .logged-in {
@@ -63,7 +63,7 @@
               <a class="nav-link disabled logged-in" id="user"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link logged-in" href="#" id="logoff">Logoff</a>
+                <a class="nav-link logged-in" href="#" id="logoff" onclick="signOut()">Logoff</a>
             </li>
           </ul>
       </div>

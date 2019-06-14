@@ -4,10 +4,10 @@ const authenticate = require('../middlewares/authenticate')
 const authorize = require('../middlewares/authorize')
 
 router.get('/search', recipe.search)
+router.get('/list', authenticate, recipe.listfav)
 router.get('/:uri', recipe.detail)
 
 router.use(authenticate)
-
 router.post('/addfav', recipe.addToFav)
 router.delete('/deletefav/:id', authorize, recipe.removeFav)
 

@@ -1,6 +1,7 @@
 const axios = require('axios')
 axios.defaults.baseURL = `https://api.edamam.com`
 const Recipe = require('../models/recipe')
+var mongoose = require('mongoose');
 
 class RecipeCont {
   static addToFav(req, res, next){
@@ -44,6 +45,27 @@ class RecipeCont {
         })
       })
       .catch(next)
+  }
+
+  static listfav (req, res, next) {
+    Recipe.find({user: mongoose.Types.ObjectId(req.decoded._id)}, function (err, recipes) {
+      if (err) {
+        next ({code: 400, message: err.message})
+      } else {
+        let output = []
+        for (let i = 0; i < recipes.length; i++){
+          let recipe = {
+            name: recipes[i].name,
+            uri: recipes[i].uri,
+            image: recipes[i].image,
+            source: recipes[i].source,
+            url: recipes[i].url,
+          }
+          output.push(recipe)
+        }
+        res.status(200).json(output)
+      }
+    })
   }
 }
 

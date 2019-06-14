@@ -3,19 +3,20 @@ const { compareSync } = require('../helpers/bcrypt')
 const jwt = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const randomPass = require("../helpers/randomPass")
 
 class UserCont {
   static GoogleSignIn(req, res, next) {
     let payload = null
     let newPass = null
     client.verifyIdToken({
-      idToken: req.body.id_token,
+      idToken: req.body.token,
       audience: process.env.GOOGLE_CLIENT_ID
     })
       .then((ticket) => {
         payload = ticket.getPayload();
         const userid = payload['sub']
-        console.log(payload)
+        // console.log(payload)
         return User.findOne({ email: payload.email })
       })
       .then((user) => {
@@ -26,8 +27,9 @@ class UserCont {
             email: payload.email,
             password: newPass
           })
+        } else {
+          return user
         }
-        return user
       })
       .then(user => {
         let { name } = user
@@ -37,7 +39,7 @@ class UserCont {
           email: user.email
         }
         let token = jwt.sign(payload, process.env.KUNCI)
-        console.log('token --->', token, '<---token')
+        // console.log('token --->', token, '<---token')
         let data = { token, name }
         if (newPass) data.newPass = newPass
         res.status(201).json(data)
@@ -71,7 +73,8 @@ class UserCont {
             }
             let access_token = jwt.sign(payload)
             res.status(201).json({
-              access_token
+              token: access_token,
+              name: row.name
             })
           }
           else next({ code: 422, message: 'Wrong email/password' })
