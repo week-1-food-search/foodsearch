@@ -27,5 +27,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/', index)
+app.listen(port, ()=>{console.log('listening to port', port)})
 app.use(error)
 
