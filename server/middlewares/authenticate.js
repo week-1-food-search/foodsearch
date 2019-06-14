@@ -2,10 +2,8 @@ const User = require('../models/user')
 const jwt = require('../helpers/jwt')
 
 module.exports = (req,res,next)=>{
-  // console.log(req.headers['access-token'])
   if(req.headers['token']) {
     try {
-      console.log('haiii')
       req.decoded = jwt.verify(req.headers['token'], process.env.KUNCI)
     }
     catch(err) {
