@@ -16,4 +16,9 @@ app.use(express.json())
 
 app.use('/', index)
 app.use(errorHandler)
+mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost:27017/testing', {useNewUrlParser: true})
 app.listen(port, () => console.log('listening to port :', port))    
+
+

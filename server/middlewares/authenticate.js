@@ -5,7 +5,8 @@ module.exports = (req,res,next)=>{
   // console.log(req.headers['access-token'])
   if(req.headers['token']) {
     try {
-      req.decoded = jwt.verify(req.headers['token'])
+      console.log('haiii')
+      req.decoded = jwt.verify(req.headers['token'], process.env.KUNCI)
     }
     catch(err) {
       next({ code: 400, message: 'Invalid Token' })
