@@ -3,6 +3,7 @@ const { compareSync } = require('../helpers/bcrypt')
 const jwt = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const randomPass = require('../helpers/randomPass')
 
 class UserCont {
   static GoogleSignIn(req, res, next) {
@@ -63,6 +64,7 @@ class UserCont {
     })
       .then(row => {
         if (row) {
+          let { name } = row
           let isSame = compareSync(req.body.password, row.password)
           if (isSame) {
             let payload = {
@@ -71,6 +73,7 @@ class UserCont {
             }
             let access_token = jwt.sign(payload)
             res.status(201).json({
+              name,
               access_token
             })
           }
