@@ -1,10 +1,10 @@
-const Album = require('../models/album')
+const Recipe = require('../models/recipe')
 
 module.exports = (req, res, next) => {
-  Album.findById(req.params.id)
+  Recipe.findById(req.params.id)
     .then(row => {
       if (row) {
-        if (row.user.equals(req.decoded._id)) {
+        if (row.user.equals(req.decoded.id)) {
           next()
         }
         else {
@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
         }
       }
       else
-        next({ code: 404, message: 'Album not found' })
+        next({ code: 404, message: 'Recipe not found' })
     })
     .catch(next)
 }
