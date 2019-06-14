@@ -1,7 +1,3 @@
-if (localStorage.getItem("token")){
-  localStorage.clear()
-}
-
 $( "#register" ).click(function( event ) {
   $('.register').show()
   $('.home').hide()
@@ -243,7 +239,7 @@ $( "#filter" ).submit(function( event ) {
         <div class="card-body text-center">
           <h5 class="card-title">${resto[i].restaurant.name}</h5>
           <a href="#" class="btn btn-primary detail" id="${resto[i].restaurant.id}" data-toggle="modal" data-target="#modal">Detail</a>
-          <a href="#" class="btn btn-primary" id="${resto[i].restaurant.id}" onclick="addFavResto('${resto[i].restaurant.id}', '${resto[i].restaurant.name}', '${resto[i].restaurant.location.address}', '${resto[i].restaurant.user_rating.aggregate_rating}', '${resto[i].restaurant.thumb}')">Add To Favorites</a>
+          <a href="#" class="btn position-absolute" id="${resto[i].restaurant.id}" onclick="addFavResto('${resto[i].restaurant.id}', '${resto[i].restaurant.name}', '${resto[i].restaurant.location.address}', '${resto[i].restaurant.user_rating.aggregate_rating}', '${resto[i].restaurant.thumb}')"><i class="fas fa-heart"></i></a>
         </div>
       </div>
       `)
@@ -413,6 +409,7 @@ $("#fav-recipe").on("click", ".remove", function(event) {
 
 $(".restaurant").on("click", ".detail", function(event) {
   let id = $("a").prevObject[0].activeElement.id
+  
   $("#notification3").empty()
   $(".modal-title").empty()
   $(".modal-body").empty()
@@ -422,11 +419,14 @@ $(".restaurant").on("click", ".detail", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
+    console.log(data)
+    let mapsAPI = `<iframe  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?q=${data.location.latitude}+${data.location.longitude}&key=AIzaSyBawmMT17jIpxGrLvzO7L0sA-f5rwcQSxY" allowfullscreen></iframe>`
     $(".modal-title").append(`${data.name}`)
     $(".modal-body").append(`
     <div class="row">
       <div class="col"> 
-        isi map
+        ${mapsAPI}
       </div>
       <div class="col"> 
         <img class="card-img-top" src="${data.thumb}">
@@ -491,3 +491,16 @@ $(".recipe").on("click", ".detail", function(event) {
     `)
   })
 })
+
+$('document').ready(function(){
+  if(localStorage.getItem('token')){
+    $("#notification3").empty()
+    let name = localStorage.getItem('name')
+    $("#user").append(name)
+    $(".logged-out").hide()
+    $(".logged-in").attr( "style", "display: inline-block;" )
+    $(".logged-in").show()
+    $('.login').hide()
+    $('.home').show()
+  }
+ })
