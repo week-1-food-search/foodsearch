@@ -46,10 +46,6 @@ class UserCont {
   }
 
   static register(req, res, next) {
-<<<<<<< HEAD
-    console.log('hai')
-=======
->>>>>>> 6aed9fc40b2b8a4ee4dc2f350faba034d6dfe1ee
     User.create({
       name: req.body.name,
       email: req.body.email,

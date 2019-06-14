@@ -9,13 +9,13 @@ const index = require('./routers/index.js')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const error = require('./helpers/error')
+const url = process.env.DATABASE_URL
 
-mongoose.connect(url, {
+mongoose.connect(`${url}`, {
   useNewUrlParser: true
 })
   .then(() => {
     console.log('connected to MongoDB');
-
   })
   .catch(err => {
     console.log(err)
