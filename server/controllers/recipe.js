@@ -6,6 +6,7 @@ class AudioDBCont {
   static addToFav(req, res, next){
     Recipe.create({
       user: req.decoded._id,
+      uri: req.body.uri,
       name: req.body.name,
       image: req.body.image,
       source: req.body.source,
@@ -36,7 +37,7 @@ class AudioDBCont {
   }
 
   static detail(req, res, next) {
-    axios.get(`/search?r=${req.query.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
+    axios.get(`/search?r=${req.params.uri}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
         res.json({
           data: data[0]

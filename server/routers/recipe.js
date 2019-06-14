@@ -4,7 +4,7 @@ const authenticate = require('../middlewares/authenticate')
 const authorize = require('../middlewares/authorize')
 
 router.get('/search', recipe.search)
-router.get('/recipe/:uri', recipe.detail)
+router.get('/:uri', recipe.detail)
 
 router.use(authenticate)
 
