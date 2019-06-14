@@ -16,7 +16,6 @@ class UserCont {
       .then((ticket) => {
         payload = ticket.getPayload();
         const userid = payload['sub']
-        // console.log(payload)
         return User.findOne({ email: payload.email })
       })
       .then((user) => {
@@ -39,7 +38,6 @@ class UserCont {
           email: user.email
         }
         let token = jwt.sign(payload, process.env.KUNCI)
-        // console.log('token --->', token, '<---token')
         let data = { token, name }
         if (newPass) data.newPass = newPass
         res.status(201).json(data)

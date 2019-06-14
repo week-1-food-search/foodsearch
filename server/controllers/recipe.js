@@ -38,7 +38,6 @@ class RecipeCont {
   }
 
   static detail(req, res, next) {
-    console.log(req.query.uri)
     axios.get(`/search?r=${encodeURIComponent(req.query.uri)}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}`)
       .then(({ data }) => {
         res.json({
@@ -56,6 +55,7 @@ class RecipeCont {
         let output = []
         for (let i = 0; i < recipes.length; i++){
           let recipe = {
+            _id: recipes[i]._id,
             name: recipes[i].name,
             uri: recipes[i].uri,
             image: recipes[i].image,
